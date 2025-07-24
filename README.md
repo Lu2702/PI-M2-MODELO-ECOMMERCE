@@ -21,8 +21,9 @@ Lo siguiente descrito corresponde al **primer avance**, en el cual se establecen
 
 La conexión a la base de datos y a las herramientas auxiliares (DBT, PgAdmin, Streamlit) se realiza a través de contenedores Docker definidos en los siguientes archivos:
 
-* `docker-compose.yml`: Define los servicios de PostgreSQL, PgAdmin, DBT y Streamlit.
-* `Dockerfile`: Configura la imagen base para DBT y Streamlit.
+* `docker-compose.yml`: Define los servicios de PostgreSQL, PgAdmin, DBT y Streamlit. [Ver docker-compose.yml](docker-compose.yml)
+* `Dockerfile`: Configura la imagen base para DBT y Streamlit. [Ver Dockerfile DBT] ([text](Dockerfile))
+[Ver Dockerfile Streamlit] ([text](streamlit\Dockerfile))
 * `.env`: Contiene las variables sensibles necesarias para la configuración.
 
 ### 3. Variables de entorno (.env)
@@ -94,10 +95,9 @@ mi_proyecto_pg/
 
 ### Paso 1: Crear las tablas con ORM
 
-El archivo `crear_tablas.py` ejecuta el siguiente flujo:
-
-1. Importa el motor de conexión (`get_db_engine`) y el modelo base `Base` desde `db_conector.py`.
-2. Importa todas las clases ORM desde `modelos.py` (Usuarios, Categorias, Productos, etc.).
+* El archivo `crear_tablas.py` [Ver crear_tablas.py](PROYECTO%20M2/PRIMER%20AVANCE/crear_tablas.py) ejecuta el siguiente flujo: 
+1. Importa el motor de conexión (`get_db_engine`) y el modelo base `Base` desde `db_conector.py` [Ver db_conector.py](PROYECTO%20M2/PRIMER%20AVANCE/db_conector.py).
+2. Importa todas las clases ORM desde `modelos.py`[Ver modelos.py](PROYECTO%20M2/PRIMER%20AVANCE/modelos.py). (Usuarios, Categorias, Productos, etc.).
 3. Llama a `Base.metadata.create_all(bind=engine)` para crear todas las tablas en la base de datos conectada.
 4. Imprime en consola un mensaje de éxito o error.
 
@@ -111,7 +111,7 @@ Este enfoque asegura que las tablas estén definidas de manera centralizada y co
 
 ### Paso 2: Importación de datos desde archivos `.sql`
 
-Los scripts como `1.importar_usuarios.py` utilizan expresiones regulares para extraer las sentencias `INSERT INTO` desde archivos `.sql` como `DATA M2/2.usuarios.sql`. Luego:
+Los scripts como `1.importar_usuarios.py` [Ver 1.importar_usuarios.py](PROYECTO%20M2/PRIMER%20AVANCE/1.importar_usuarios.py) utilizan expresiones regulares para extraer las sentencias `INSERT INTO` desde archivos `.sql` como `DATA M2/2.usuarios.sql`[Ver DATA M2/2.usuarios.sql](DATA%20M2/2.usuarios.sql). Luego:
 
 1. Se limpia el texto (por ejemplo, eliminando acentos).
 2. Se separan los valores dentro del `VALUES (...)`.
@@ -144,13 +144,13 @@ Con esta base, el proyecto está listo para avanzar hacia la exploración de los
 
 ## 📊 Análisis Exploratorio y Evaluación de Calidad de Datos
 
-El análisis exploratorio se realizó en el archivo `exploracion.ipynb`, utilizando una combinación de SQL, SQLAlchemy y herramientas gráficas en Python como pandas, seaborn y matplotlib.
+El análisis exploratorio se realizó en el archivo `exploracion.ipynb` [Ver exploracion.ipynb](PROYECTO%20M2/PRIMER%20AVANCE/exploracion.ipynb), utilizando una combinación de SQL, SQLAlchemy y herramientas gráficas en Python como pandas, seaborn y matplotlib.
 
-### 🔍 Paso a paso del archivo `exploracion.ipynb`
+### 🔍 Paso a paso del archivo `exploracion.ipynb`[Ver exploracion.ipynb](PROYECTO%20M2/PRIMER%20AVANCE/exploracion.ipynb)
 
 1. **Conexión a la base de datos**:
 
-   * Se importa el engine desde `db_conector.py`
+   * Se importa el engine desde `db_conector.py`[Ver db_conector.py](PROYECTO%20M2/PRIMER%20AVANCE/db_conector.py)
    * Se valida la conexión exitosa
 
 2. **Creación de sesión SQLAlchemy**:
@@ -204,7 +204,7 @@ Se aplicaron revisiones sistemáticas para garantizar la calidad e integridad de
 
 ### 👤 Top 5 usuarios con mayor ingreso generado (ordenes Completadas):
 
-| UsuarioID | Ingreso Total USD |
+| UsuarioID | Ingreso Total  |
 | --------- | ----------------- |
 | 112       | \$5,111.83        |
 | 411       | \$4,905.19        |
@@ -216,7 +216,7 @@ Esto permite identificar a usuarios de alto valor para posibles estrategias de f
 
 ### 💰 Top 5 productos más caros del catálogo
 
-| Producto                   | Precio Unitario USD |
+| Producto                   | Precio Unitario |
 | -------------------------- | ------------------- |
 | Laptop Dell Inspiron 15    | \$799.00            |
 | Consola PlayStation 5      | \$549.99            |
@@ -252,7 +252,7 @@ Lanzar una campaña de promoción o liquidación dirigida a estos productos para
 * **Métodos de pago más utilizados**: Se observa una distribución balanceada entre todas las formas de pago, con ligera preferencia por “Crédito en tienda”.
 * **Intención de compra**: Las unidades agregadas al carrito aumentaron en el mes 5, lo cual podría asociarse a promociones o estacionalidad.
 
-Estas visualizaciones se encuentran documentadas y generadas automáticamente dentro del cuaderno `exploracion.ipynb`.
+Estas visualizaciones se encuentran documentadas y generadas automáticamente dentro del cuaderno `exploracion.ipynb`[Ver exploracion.ipynb](PROYECTO%20M2/PRIMER%20AVANCE/exploracion.ipynb).
 
 ---
 
@@ -356,8 +356,8 @@ Los stakeholders han definido las siguientes preguntas clave que reflejan las pr
 
 📎 Archivos relacionados:
 
-* 📘 Notebook: `segundo_avance.ipynb`
-* 📊 Diagramas ER y por tabla: `Conc_*.drawio.png`, `Log_*.drawio.png`, `Diagrama_ER.drawio.png`
+* 📘 Notebook: `segundo_avance.ipynb`[Ver segundo_avance.ipynb](PROYECTO%20M2/SEGUNDO%20AVANCE/segundo_avance.ipynb)
+* 📊 Diagramas ER y por tabla: `Conc_*.drawio.png` , `Log_*.drawio.png`, `Diagrama_ER.drawio.png`
 
 # 📊 Tercer Avance - Transformaciones de datos usando dbt
 
@@ -440,22 +440,30 @@ ecommerce_project:
 
 ### 1. **Modelo Bronze (Staging)**
 
-* Se importaron las tablas brutas desde PostgreSQL utilizando `source.yml`.
-* Se crearon archivos `.sql` por cada tabla (e.g., `stg_usuarios.sql`, `stg_productos.sql`).
+* Se importaron las tablas brutas desde PostgreSQL utilizando `source.yml`[Ver source.yml](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\bronze\source.yml).
+* Se crearon archivos `.sql` por cada tabla (e.g., `stg_usuarios.sql`[Ver stg_usuarios.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\bronze\stg_usuarios.sql), `stg_productos.sql`[Ver stg_productos.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\bronze\stg_productos.sql).
 * En esta capa no se alteran los datos, sólo se renombran columnas, se manejan nulos evidentes y se normaliza formato.
 
 ### 2. **Modelo Silver (Modelo dimensional)**
 
 * Se definieron dimensiones y hechos:
 
-  * `dim_usuarios`, `dim_productos`, `dim_metodos_pago`, `dim_categorias`
-  * `fct_carrito`, `fct_ordenes`, `fct_detalleordenes`, `fct_ordenes_metodos_pago`
+  * `dim_usuarios`[Ver dim_usuarios.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\silver\dim_usuarios.sql), `dim_productos`[Ver dim_productos.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\silver\dim_productos.sql), `dim_metodos_pago`[Ver dim_metodos_pago.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\silver\dim_metodos_pago.sql), `dim_categorias`[Ver dim_categorias.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\silver\dim_categorias.sql)
+  * `fct_carrito`[Ver fct_carrito.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\silver\fct_carrito.sql), `fct_ordenes`[Ver fct_ordenes.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\silver\fct_ordenes.sql), `fct_detalleordenes`[Ver fct_detalleordenes.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\silver\fct_detalleordenes.sql), `fct_ordenes_metodos_pago`[Ver fct_ordenes_metodos_pago.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\silver\fct_ordenes_metodos_pago.sql)
 * Se implementaron relaciones entre tablas mediante claves foráneas.
 
 ### 3. **🔄 Implementación de Slowly Changing Dimensions (SCD)**
 
 En este proyecto se definieron algunas dimensiones como SCD tipo 2 (Usuarios, Métodos de Pago, Productos) y tipo 1 (Categorias). Sin embargo, **durante este avance**, como aún no se habían producido cambios reales en las fuentes, la estructura generada fue la siguiente:
 
+🧠 ¿Cómo se gestionan los cambios históricos?
+Para detectar y almacenar cambios en las dimensiones SCD Tipo 2, se usaron snapshots en DBT. Un snapshot permite comparar el estado actual de una tabla contra su versión anterior y detectar diferencias automáticamente.
+ 
+ ejemplo `dim_metodos_pago`[Ver dim_metodos_pago.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\silver\dim_metodos_pago.sql)
+
+ Snapshot `snapshot_metodos_pago`[ver snapshot_metodos_pago.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\snapshots\snapshot_metodos_pago.sql)
+
+ 
 ```sql
 current_timestamp AS "FechaInicio",
 NULL AS "FechaFin",
@@ -465,6 +473,7 @@ TRUE AS "Activo"
 > Esto se realizó para simular el comportamiento de SCD hasta que se detectaran cambios.
 
 Una vez existan cambios y se activen los snapshots, se deberá modificar a:
+
 
 ```sql
 dbt_valid_from AS "FechaInicio",
@@ -579,7 +588,7 @@ MI_PROYECTO_PG/
 
 ### Tests automáticos
 
-Se implementaron los siguientes tests de integridad en los archivos `schema.yml`:
+Se implementaron los siguientes tests de integridad en los archivos `source.yml`[Ver source.yml](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\bronze\source.yml):
 
 - **not_null** y **unique** en claves primarias (`UsuarioID`, `ProductoID`, etc.).
 - **relationships** para claves foráneas como `"CategoriaID"` en la tabla Productos:
@@ -620,8 +629,10 @@ dbt test
 
 Se experimentó con distintas materializaciones (`view`, `table`, `incremental`). Se optó por:
 
-- `view` para modelos de bronze.
+- `view` para modelos de bronze. ejemplo `stg_usuarios.sql` [Ver stg_usuarios.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\bronze\stg_usuarios.sql)
 - `table` para modelos silver y gold
+ * silver `dim_metodos_pago`[Ver dim_metodos_pago.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\silver\dim_metodos_pago.sql)
+ * gold `kpi_tasa_cancelacion`[Ver kpi_tasa_cancelacion.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\gold\kpi_tasa_cancelacion.sql)
 
 ## Documentación Interactiva con DBT 
 
@@ -679,7 +690,7 @@ docker run -p 8501:8501 streamlit_app
 
 #### Requisitos
 
-Archivo `requirements.txt`:
+Archivo `requirements.txt`[Ver requirements.txt](streamlit\requirements.txt):
 
 ```
 streamlit
@@ -708,26 +719,41 @@ plotly
 Los análisis realizados a partir del modelo dimensional y visualizados en el dashboard de Streamlit permiten identificar patrones relevantes que impactan directamente en la estrategia comercial de la tienda:
 
 🏆 1. Tecnología domina en ingresos
+
+[Ver kpi_categoria_mayor_ingreso.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\gold\kpi_categoria_mayor_ingreso.sql)
+
 La categoría Tecnología y Gadgets lidera las ventas con $353,783 generados. Este comportamiento sugiere una clara preferencia del mercado por productos tecnológicos, lo cual representa una oportunidad de expansión del catálogo y ofertas dirigidas a este segmento.
 
 <p align="center"> <img src="docs/kpi_categoria_mayor_ingreso_tabla.png" width="1000"/> <br><em>Figura A. Tabla con ingresos por categoría</em> </p> <p align="center"> <img src="docs/kpi_categoria_mayor_ingreso_grafico.png" width="1000"/> <br><em>Figura B. Gráfico de barras: ingreso total por categoría</em> </p>
 
 📈 2. Tendencia positiva de ingresos mensuales
+
+[Ver kpi_ingresos_mensuales.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\gold\kpi_ingresos_mensuales.sql)
+
 Los ingresos muestran un crecimiento sostenido mes a mes, con un acumulado que supera los $2.7 millones. Esta evolución sugiere una adopción creciente del canal digital, y permite proyectar escenarios de demanda futura. Se puede reforzar las estrategias actuales de marketing digital y promociones mensuales.
 
 <p align="center"> <img src="docs/kpi_ingresos_mensuales_tabla.png" width="1000"/> <br><em>Figura C. Tabla de ingresos mensuales por mes</em> </p> <p align="center"> <img src="docs/kpi_ingresos_mensuales_grafico.png" width="1000"/> <br><em>Figura D. Gráfico de líneas con ingreso mensual y acumulado</em> </p>
 
 🛍️ 3. Conversión casi perfecta
+
+[Ver kpi_tasa_conversion_carrito.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\gold\kpi_tasa_conversion_carrito.sql)
+
 La tasa de conversión es excepcional: el 99.4% de los usuarios que agregan productos al carrito en estado "Completo" y "Enviado" y completan su compra. Este dato evidencia la experiencia de usuario. 
 
 <p align="center"> <img src="docs/kpi_tasa_cancelacion_tabla.png" width="1000"/> <br><em>Figura E. Tabla que muestra el número de órdenes y cancelaciones</em> </p> <p align="center"> <img src="docs/kpi_tasa_cancelacion_grafico.png" width="1000"/> <br><em>Figura F. Visualización de la tasa de cancelación vs órdenes completadas</em> </p>
 
 ❗ 4. Riesgo latente en cancelaciones
+
+[Ver kpi_tasa_cancelacion.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\gold\kpi_tasa_cancelacion.sql)
+
 Con una tasa de cancelación del 25.1%, existe una alerta operativa: 1 de cada 4 pedidos confirmados es cancelado posteriormente. Este dato puede deberse a problemas logísticos, falta de stock o errores en medios de pago.
 
 <p align="center"> <img src="docs/kpi_tasa_conversion_carrito_tabla.png" width="1000"/> <br><em>Figura G. Tabla que incluye usuarios con carritos creados y con órdenes realizadas, finalmente cual es el porcentaje de conversión </em> </p> <p align="center"> <img src="docs/kpi_tasa_conversion_carrito_grafico.png" width="1000"/> <br><em>Figura H. Visualización del porcentaje de conversión desde carrito a compra</em> </p>
 
 🎯 5. Concentración de ingresos en pocos usuarios
+
+[Ver kpi_usuario_mayor_ingreso.sql](PROYECTO%20M2\TERCER%20AVANCE%20DBT\app\ecommerce_project\models\gold\kpi_usuario_mayor_ingreso.sql)
+
 El top 5 de usuarios concentra más de $37,000 en ingresos, lo que representa una oportunidad para implementar programas de fidelización, membresías premium o beneficios exclusivos que fomenten la recurrencia y retención de estos clientes clave.
 
 <p align="center"> <img src="docs/kpi_usuario_mayor_ingreso_tabla.png" width="1000"/> <br><em>Figura I. Tabla con los usuarios que generan mayor ingreso</em> </p> <p align="center"> <img src="docs/kpi_usuario_mayor_ingreso_grafico.png" width="1000"/> <br><em>Figura J. Gráfico de barras con ingresos por usuario</em> </p>
