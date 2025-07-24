@@ -63,10 +63,11 @@ Esto crea y levanta:
 
 ```
 mi_proyecto_pg/
-├── .env                         # Variables para PostgreSQL y PgAdmin
+├── .env                         # Variables para PostgreSQL y PgAdmin lo crea el usuario
 ├── Dockerfile                   # Imagen para contenedor DBT
 ├── docker-compose.yml          # Orquestación de servicios Docker
-├── PRIMER AVANCE/              # ETL, ORM, scripts, modelo
+├── README.md
+├── PRIMER AVANCE/              # ORM, scripts, modelo
 │   ├── db_conector.py
 │   ├── modelos.py
 │   ├── crear_tablas.py
@@ -262,7 +263,7 @@ Con esta información, el proyecto concluye el **primer avance** con:
 * Análisis exploratorio completo
 * Hallazgos relevantes para futuras decisiones de negocio y modelado avanzado
 
-## 🧠 Segundo Avance – Modelado de Datos Dimensional
+## 🧠 Segundo Avance – Modelado de Datos 
 
 ## 📁 Estructura del Proyecto
 
@@ -358,11 +359,13 @@ Los stakeholders han definido las siguientes preguntas clave que reflejan las pr
 * 📘 Notebook: `segundo_avance.ipynb`
 * 📊 Diagramas ER y por tabla: `Conc_*.drawio.png`, `Log_*.drawio.png`, `Diagrama_ER.drawio.png`
 
-# 📊 Tercer Avance - Proyecto DBT E-commerce
+# 📊 Tercer Avance - Transformaciones de datos usando dbt
 
 Este repositorio contiene una **versión limpia y desacoplada** del modelo dimensional para un sistema de e-commerce, diseñado con DBT, integrado con PostgreSQL y preparado para visualización en Streamlit.
 
 > ⚠️ Esta versión fue renombrada para evitar conflictos con contenedores existentes. Sigue cuidadosamente los pasos para que puedas ejecutarlo desde cero.
+
+> ⚠️ Nota alternativa: Si no deseas renombrar los archivos dentro de TERCER AVANCE DBT/, puedes usar directamente los archivos que ya están ubicados en la raiz del proyecto en la carpeta externa dbt_profiles/. En ese caso, no necesitas hacer cambios de nombre ni mover archivos, ya están listos para usar.
 
 ---
 
@@ -426,8 +429,8 @@ ecommerce_project:
     dev:
       type: postgres
       host: db
-      user: admin
-      password: admin123
+      user: admin (ejemplo)
+      password: admin123 (ejemplo)
       port: 5432
       dbname: EcommerceDB
       schema: public
@@ -489,7 +492,7 @@ Y también el `generate_surrogate_key` deberá incluir `"dbt_valid_from"` como p
 
 ---
 
-## 🧬 Storytelling: Insights Clave del Negocio
+## Storytelling: Insights Clave del Negocio
 
 > 🔍 A partir de los KPIs definidos, el modelo arroja resultados que permiten tomar decisiones estratégicas:
 
@@ -538,7 +541,7 @@ El modelo dimensional implementado con DBT permite un acceso estructurado, limpi
 
 > En el siguiente avance se documentará el modelo con `dbt docs` y se integrará la visualización con **Streamlit**.
 
-# 📦 Cuarto Avance DBT + Streamlit
+# 📦 Optimización, validación y storytelling con DBT
 
 En este cuarto avance se abordan las etapas PI1, PI2 y PI3, enfocadas en la implementación de tests automáticos para validar la integridad de los datos, la generación de documentación técnica navegable con DBT, y la presentación visual de hallazgos clave mediante técnicas de storytelling con datos.
 
@@ -546,21 +549,30 @@ En este cuarto avance se abordan las etapas PI1, PI2 y PI3, enfocadas en la impl
 
 ## 🧱 Estructura del Proyecto 
 ```
-.
-├── models/
-│   ├── staging/
-│   ├── silver/
-│   ├── marts/
-│   └── snapshots/
-├── snapshots/
+MI_PROYECTO_PG/
+├── .env                               # lo crea el usuario
+├── docker-compose.yml
+├── Dockerfile                         # dbt
+├── README.md
 ├── streamlit/
 │   ├── app.py
-│   ├── Dockerfile
+│   ├── Dockerfile                     # streamlit
 │   └── requirements.txt
-├── .env
-├── dbt_project.yml
-├── docker-compose.yml
-└── README.md
+├── dbt_profiles/
+│   ├── profiles.yml         ← Archivo de configuración externo para DBT
+│   └── .user.yml
+└── PROYECTO M2/
+    └── TERCER AVANCE DBT/
+        └── app/
+            └── ecommerce_project/
+                ├── dbt_project_copia.yml    # archivos copia
+                ├── dbt_profiles/
+                │   └── profiles_copia.yml   # archivos copia
+                └── models/
+                    ├── bronze/
+                    ├── silver/
+                    ├── gold/
+                    └── snapshots/
 ```
 ---
 ## Validación y Optimización con DBT 
@@ -723,7 +735,7 @@ El top 5 de usuarios concentra más de $37,000 en ingresos, lo que representa un
 ---
 
 Autor: Guadalupe Ramirez  
-Bootcamp Data Engineer
+
 
 
 
