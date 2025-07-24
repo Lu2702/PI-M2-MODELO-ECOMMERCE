@@ -713,17 +713,17 @@ La categoría Tecnología y Gadgets lidera las ventas con $353,783 generados. Es
 <p align="center"> <img src="docs/kpi_categoria_mayor_ingreso_tabla.png" width="1000"/> <br><em>Figura A. Tabla con ingresos por categoría</em> </p> <p align="center"> <img src="docs/kpi_categoria_mayor_ingreso_grafico.png" width="1000"/> <br><em>Figura B. Gráfico de barras: ingreso total por categoría</em> </p>
 
 📈 2. Tendencia positiva de ingresos mensuales
-Los ingresos muestran un crecimiento sostenido mes a mes, con un acumulado que supera los $2.7 millones. Esta evolución sugiere una adopción creciente del canal digital, y permite proyectar escenarios de demanda futura. Se recomienda reforzar las estrategias actuales de marketing digital y promociones mensuales.
+Los ingresos muestran un crecimiento sostenido mes a mes, con un acumulado que supera los $2.7 millones. Esta evolución sugiere una adopción creciente del canal digital, y permite proyectar escenarios de demanda futura. Se puede reforzar las estrategias actuales de marketing digital y promociones mensuales.
 
 <p align="center"> <img src="docs/kpi_ingresos_mensuales_tabla.png" width="1000"/> <br><em>Figura C. Tabla de ingresos mensuales por mes</em> </p> <p align="center"> <img src="docs/kpi_ingresos_mensuales_grafico.png" width="1000"/> <br><em>Figura D. Gráfico de líneas con ingreso mensual y acumulado</em> </p>
 
 🛍️ 3. Conversión casi perfecta
-La tasa de conversión es excepcional: el 99.4% de los usuarios que agregan productos al carrito en estado "Completo" y "Enviado" y completan su compra. Este dato evidencia que la experiencia de usuario. Es clave mantener esta eficiencia y evitar cambios drásticos en la interfaz que puedan romper este flujo.
+La tasa de conversión es excepcional: el 99.4% de los usuarios que agregan productos al carrito en estado "Completo" y "Enviado" y completan su compra. Este dato evidencia la experiencia de usuario. 
 
 <p align="center"> <img src="docs/kpi_tasa_cancelacion_tabla.png" width="1000"/> <br><em>Figura E. Tabla que muestra el número de órdenes y cancelaciones</em> </p> <p align="center"> <img src="docs/kpi_tasa_cancelacion_grafico.png" width="1000"/> <br><em>Figura F. Visualización de la tasa de cancelación vs órdenes completadas</em> </p>
 
 ❗ 4. Riesgo latente en cancelaciones
-Con una tasa de cancelación del 25.1%, existe una alerta operativa: 1 de cada 4 pedidos confirmados es cancelado posteriormente. Este dato puede deberse a problemas logísticos, falta de stock o errores en medios de pago. Se recomienda auditar el proceso post-venta para identificar y atacar las causas raíz.
+Con una tasa de cancelación del 25.1%, existe una alerta operativa: 1 de cada 4 pedidos confirmados es cancelado posteriormente. Este dato puede deberse a problemas logísticos, falta de stock o errores en medios de pago.
 
 <p align="center"> <img src="docs/kpi_tasa_conversion_carrito_tabla.png" width="1000"/> <br><em>Figura G. Tabla que incluye usuarios con carritos creados y con órdenes realizadas, finalmente cual es el porcentaje de conversión </em> </p> <p align="center"> <img src="docs/kpi_tasa_conversion_carrito_grafico.png" width="1000"/> <br><em>Figura H. Visualización del porcentaje de conversión desde carrito a compra</em> </p>
 
