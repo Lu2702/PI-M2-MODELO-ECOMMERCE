@@ -1,0 +1,8 @@
+.env
+__pycache__/
+*.pyc
+pgadmin-data/
+logs/
+data/
+mi_proyecto_dbt/
+.DS_Store

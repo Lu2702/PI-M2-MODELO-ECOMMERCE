@@ -1,0 +1,80 @@
+# mi_proyecto_pg/docker-compose.yml
+#version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4 # Imagen oficial de PgAdmin 4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}     # Email para el inicio de sesión en PgAdmin
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD} # Contraseña para el inicio de sesión en PgAdmin
+      PGADMIN_LISTEN_PORT: 80                 # Puerto donde PgAdmin escuchará internamente
+    ports:
+      - "8080:80"                             # Mapea el puerto 8080 del host al puerto 80 del contenedor PgAdmin
+    volumes:
+      - ./pgadmin-data:/var/lib/pgadmin       # Persistencia de los datos de configuración de PgAdmin
+    depends_on:
+      db:
+        condition: service_healthy            # Asegura que PgAdmin solo inicie cuando la DB esté healthy
+    #logging:
+      #driver: "json-file"
+      #options:
+        #max-size: "10m"
+        #max-file: "5"
+
+   # Contenedor DBT     
+  dbt:
+    build:
+      context: . #construye la imagen desde Dockerfilelocal
+    container_name: dbt_container
+    volumes:
+      - ./mi_proyecto_dbt:/app/ecommerce_project  #  proyecto DBT
+      - ./dbt_profiles:/root/.dbt/                # perfiles DBT
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DBT_PROFILES_DIR: /root/.dbt                #  ruta del profiles.yml
+    ports:
+      - "8082:8080"              # Mapea el puerto 8082 del host al 8080 del contenedor (dbt docs serve)
+    entrypoint: ["tail", "-f", "/dev/null"]  # Mantiene el contenedor en ejecución
+    
+  # Contenedor Streamlit     
+  streamlit:
+    build:
+      context: ./streamlit                   # construye la imagen desde Dockerfile local
+      dockerfile: Dockerfile
+    container_name: streamlit
+    restart: always
+    working_dir: /app
+    volumes:
+      - ./streamlit:/app                      # código fuente de la app Streamlit
+    ports:
+      - "8501:8501"                                # mapea el puerto del host al contenedor
+    depends_on:
+      db:                                       # espera a que la base de datos esté disponible
+        condition: service_healthy
+
+volumes:
+  data:
+  pgadmin-data:
+    

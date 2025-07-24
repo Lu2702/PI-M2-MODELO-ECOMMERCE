@@ -1,0 +1,164 @@
+version: 2
+
+sources:
+  - name: src
+    database: EcommerceDB
+    schema: public
+    tables:
+      - name: Usuarios
+        description: Contiene la información básica de los usuarios registrados.
+        columns:
+          - name: '"UsuarioID"'
+            description: ID único del usuario.
+            tests: [not_null, unique]
+          - name: Nombre
+            description: Nombre del usuario.
+          - name: Apellido
+            description: Apellido del usuario.
+          - name: dni
+            description: Documento de identidad.
+          - name: '"Email"'
+            description: Correo electrónico.
+            tests: [not_null, unique]
+          - name: Contraseña
+            description: Contraseña de correo electrónico
+          - name: FechaRegistro
+            description: Fecha en que el usuario se registró.
+
+      - name: Productos
+        description: Información de productos disponibles.
+        columns:
+          - name: '"ProductoID"'
+            description: ID unico del producto
+            tests: [not_null, unique]
+          - name: Nombre
+            description: Nombre del producto.
+          - name: Precio
+            description: Precio unitario del producto.
+          - name: Stock
+            description: Cantidad de productos disponibles en almacen
+          - name: '"CategoriaID"'
+            description: Categoría a la quwe pertenece cada producto
+            tests: 
+              - not_null
+              - relationships:
+                  to: source('src', 'Categorias')
+                  field: '"CategoriaID"'
+          - name: Descripcion
+            description: información especifica del producto
+
+      - name: Categorias
+        description: Catálogo de categorías.
+        columns:
+          - name: '"CategoriaID"'
+            description: ID unico de la categoria
+            tests: [not_null, unique]
+          - name: Nombre
+            description: Nombre de la categoría.
+          - name: Descripcion
+            description: Descripción de la categoría.
+          
+
+      - name: Ordenes
+        description: Órdenes realizadas por los usuarios.
+        columns:
+          - name: '"OrdenID"'
+            description: ID unico de orden
+            tests: [not_null, unique]
+          - name: '"UsuarioID"'
+            description: ID unico de usuario
+            tests:
+              - not_null
+              - relationships:
+                  to: source('src', 'Usuarios')
+                  field: '"UsuarioID"'
+          - name: FechaOrden
+            description: Fecha en que se realizó la orden.
+          - name: Total
+            description: Monto total de la orden.
+          - name: Estado
+            description: Estado de la orden.
+
+      - name: DetalleOrdenes
+        description: Detalle de productos en cada orden.
+        columns:
+          - name: '"DetalleID"'
+            description: ID unico de detalle ordenes
+            tests: [not_null, unique]
+          - name: '"OrdenID"'
+            description: ID unico de orden
+            tests: 
+              - not_null
+              - relationships:
+                  to: source('src', 'Ordenes')
+                  field: '"OrdenID"'
+          - name: '"ProductoID"'
+            description: ID unico de producto
+            tests: 
+              - not_null
+              - relationships:
+                  to: source('src', 'Productos')
+                  field: '"ProductoID"'
+          - name: Cantidad
+            description: Cantidad de producto.
+          - name: PrecioUnitario
+            description: Precio del producto en el momento de la orden.
+
+      - name: Carrito
+        description: Productos agregados al carrito.
+        columns:
+          - name: '"CarritoID"'
+            description: ID unico de carrito
+            tests: [not_null, unique]
+          - name: '"UsuarioID"'
+            description: ID unico de usuario
+            tests:
+              - not_null
+              - relationships:
+                  to: source('src', 'Usuarios')
+                  field: '"UsuarioID"'
+          - name: '"ProductoID"'
+            description: ID unico de producto
+            tests: 
+              - not_null
+              - relationships:
+                  to: source('src', 'Productos')
+                  field: '"ProductoID"'
+          - name: Cantidad
+            description: Número de unidades agregadas.
+          - name: FechaAgregado
+            description: Fecha en que se agregó al carrito.
+
+      - name: MetodosPago
+        description: Métodos de pago registrados.
+        columns:
+          - name: '"MetodoPagoID"'
+            description: ID unico de metodo de pago
+            tests: [not_null, unique]
+          - name: Nombre
+            description: Nombre del método de pago.
+          - name: Descripcion
+            description: Información especifica del metodo de pago 
+
+      - name: OrdenesMetodosPago
+        description: Relación entre órdenes y métodos de pago.
+        columns:
+          - name: OrdenMetodoID
+            description: ID unico de orden metodo de pago
+          - name: '"OrdenID"'
+            description: ID unico de orden
+            tests: 
+              - not_null
+              - relationships:
+                  to: source('src', 'Ordenes')
+                  field: '"OrdenID"'
+          - name: '"MetodoPagoID"'
+            description: ID unico de metodo de pago
+            tests:
+              - not_null
+              - relationships:
+                  to: source('src', 'MetodosPago')
+                  field: '"MetodoPagoID"'
+          - name: MontoPagado
+            description: Pago total de la orden de compra
+            
